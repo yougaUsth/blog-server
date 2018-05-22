@@ -1,32 +1,15 @@
-from flask import Flask, render_template,request
+from flask import Flask, render_template
+
+from www.handler.user import user
 
 app = Flask(__name__)
 
+app.register_blueprint(user, url_prefix='/user')
 
-@app.route('/user/index')
+
+@app.route('/index')
 def render_index():
-    return render_template("index.html",res={"status":True})
-
-
-@app.route("/user/login", methods=["POST"])
-def user_login():
-    res = {
-        "status":False,
-        "msg":""
-    }
-    username = request.form.get("username")
-    password = request.form.get("password")
-    if not username or not username :
-        res["msg"] = "username or password is None"
-        return render_template("index.html",res=res)
-    elif username != password:
-        res["msg"] = "username or password is error"
-        return render_template("index.html",res=res)
-    else:
-        res["status"] = True
-        res["msg"] = "login success"
-
-        return render_template("main.html",res=res)
+    return render_template("index.html", res={"status": True})
 
 
 if __name__ == '__main__':
